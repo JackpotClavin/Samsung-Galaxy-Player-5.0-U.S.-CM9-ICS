@@ -1,0 +1,21 @@
+#
+# system.prop for venturi_usa
+#
+
+rild.libpath=/system/lib/libsec-ril-apalone.so
+rild.libargs=-d /dev/ttyS0
+ro.sf.lcd_density=240
+
+# Mount the internal SD card, too
+ro.additionalmounts=/mnt/emmc
+
+# Allow people to exchange sdcard and emmc mountpoints from CMParts
+ro.vold.switchablepair=/mnt/sdcard,/mnt/emmc
+
+# Sound
+media.stagefright.enable-player=false
+media.stagefright.enable-meta=false
+media.stagefright.enable-scan=false
+media.stagefright.enable-http=true
+media.stagefright.enable-rtsp=false
+
