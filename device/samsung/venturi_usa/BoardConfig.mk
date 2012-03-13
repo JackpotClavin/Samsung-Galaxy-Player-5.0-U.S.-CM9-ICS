@@ -61,8 +61,8 @@ TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := ./device/samsung/venturi_usa/releas
 TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := ./device/samsung/venturi_usa/releasetools/venturi_usa_img_from_target_files
 
 # Bluetooth
-#BOARD_HAVE_BLUETOOTH := true
-#BOARD_HAVE_BLUETOOTH_BCM := true
+BOARD_HAVE_BLUETOOTH := true
+BOARD_HAVE_BLUETOOTH_BCM := true
 
 # WiFi related defines
 BOARD_WPA_SUPPLICANT_DRIVER := WEXT

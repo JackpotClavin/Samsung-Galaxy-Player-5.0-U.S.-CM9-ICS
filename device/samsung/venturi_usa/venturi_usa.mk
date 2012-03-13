@@ -21,8 +21,11 @@ $(call inherit-product, vendor/samsung/venturi_usa/venturi_usa-vendor.mk)
 $(call inherit-product, build/target/product/full_base.mk)
 $(call inherit-product, vendor/cm/config/common_full_phone.mk)
 
+DEVICE_PACKAGE_OVERLAYS := device/samsung/venturi_usa/overlay
+DEVICE_PACKAGE_OVERLAYS += device/samsung/venturi_usa/overlay
+
 # These are the hardware-specific configuration files
-PRODUCT_COPY_FILES := \
+PRODUCT_COPY_FILES += \
 	device/samsung/venturi_usa/asound.conf:system/etc/asound.conf \
 	device/samsung/venturi_usa/vold.fstab:system/etc/vold.fstab \
 	device/samsung/venturi_usa/prebuilt/lib/egl/egl.cfg:system/lib/egl/egl.cfg
@@ -54,6 +57,10 @@ PRODUCT_COPY_FILES += \
 	device/samsung/venturi_usa/audio/liba2dp.so:system/lib/liba2dp.so \
 	device/samsung/venturi_usa/audio/libasound.so:system/lib/libasound.so \
 	device/samsung/venturi_usa/audio/libaudio.so:system/lib/libaudio.so \
+	device/samsung/venturi_usa/audio/libaudiohw_op.so:system/lib/libaudiohw_op.so \
+	device/samsung/venturi_usa/audio/libaudiohw_sf.so:system/lib/libaudiohw_sf.so \
+	device/samsung/venturi_usa/audio/liblvvefs.so:system/lib/liblvvefs.so \
+	device/samsung/venturi_usa/audio/lib_Samsung_Sound_Booster_Handphone.so:system/lib/lib_Samsung_Sound_Booster_Handphone.so \
 	device/samsung/venturi_usa/audio/lib_Samsung_Resampler.so:system/lib/lib_Samsung_Resampler.so \
 	device/samsung/venturi_usa/audio/libsamsungSoundbooster.so:system/lib/libsamsungSoundbooster.so \
 	device/samsung/venturi_usa/audio/libsec-ril.so:system/lib/libsec-ril.so \

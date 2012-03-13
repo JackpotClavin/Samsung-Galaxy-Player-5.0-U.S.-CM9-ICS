@@ -84,6 +84,9 @@ except ImportError:
 import venturi_usa_common as common
 import venturi_usa_edify_generator as edify_generator
 
+TARGET_DIR = os.getenv('OUT')
+UTILITIES_DIR = os.path.join(TARGET_DIR, 'utilities')
+
 OPTIONS = common.OPTIONS
 OPTIONS.package_key = None
 OPTIONS.incremental_source = None
@@ -316,6 +319,32 @@ def SignOutput(temp_zip_name, output_zip_name):
   common.SignFile(temp_zip_name, output_zip_name, OPTIONS.package_key, pw,
                   whole_file=True)
 
+def CopyBootFiles(input_zip, output_zip):
+    output_zip.write(os.path.join(TARGET_DIR, "cm7boot.img"),"cm7boot.img")
+
+def CopyUpdaterFiles(output_zip):
+  """Copy some utilities needed for updater."""
+  output_zip.write(os.path.join(UTILITIES_DIR, "make_ext4fs"),"make_ext4fs")
+  output_zip.write(os.path.join(UTILITIES_DIR, "busybox"),"busybox")
+  output_zip.write(os.path.join(UTILITIES_DIR, "updater.sh"),"updater.sh")
+
+def Ext4Stuff(self):
+  self.script.append('package_extract_file("updater.sh", "/tmp/updater.sh");')
+  self.script.append('set_perm(0, 0, 0777, "/tmp/updater.sh");')
+  self.script.append('package_extract_file("make_ext4fs", "/tmp/make_ext4fs");')
+  self.script.append('set_perm(0, 0, 0777, "/tmp/make_ext4fs");')
+  self.script.append('package_extract_file("busybox", "/tmp/busybox");')
+  self.script.append('set_perm(0, 0, 0777, "/tmp/busybox");')
+  self.script.append('assert(run_program("/tmp/updater.sh") == 0);')
+
+def ExtractBoot(self):
+  self.script.append('assert(package_extract_file("boot.img", "/tmp/boot.img"),')
+  self.script.append('write_raw_image("/tmp/boot.img", "/dev/block/mmcblk0p11"),')
+  self.script.append('delete("/tmp/boot.img"));')
+  self.script.append('assert(package_extract_file("boot.img", "/tmp/boot.img"),')
+  self.script.append('write_raw_image("/tmp/boot.img", "/dev/block/mmcblk0p12"),')
+  self.script.append('delete("/tmp/boot.img"));')
+
 
 def MakeRecoveryPatch(output_zip, recovery_img, boot_img):
   """Generate a binary patch that creates the recovery image starting
@@ -392,7 +421,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
   #  ts = GetBuildProp("ro.build.date.utc", input_zip)
   #  script.AssertOlderBuild(ts)
 
-  script.Ext4Stuff()
+  script.Ext4Stuff
 
   if OPTIONS.backuptool:
     script.RunBackup("backup")
@@ -409,22 +438,15 @@ def WriteFullOTAPackage(input_zip, output_zip):
   #script.UnpackPackageDir("recovery", "/system")
   script.UnpackPackageDir("system", "/system")
 
-  (symlinks) = CopySystemFiles(input_zip, output_zip)
+  (symlinks, retouch_files) = CopySystemFiles(input_zip, output_zip)
   script.MakeSymlinks(symlinks)
-  #if OPTIONS.aslr_mode:
-  #  script.RetouchBinaries(retouch_files)
-  #else:
-  #  script.UndoRetouchBinaries(retouch_files)
+  if OPTIONS.aslr_mode:
+    script.RetouchBinaries(retouch_files)
+  else:
+    script.UndoRetouchBinaries(retouch_files)
 
-def CopyBootFiles(input_zip, output_zip):
-    output_zip.write(os.path.join(TARGET_DIR, "cm7boot.img"),"boot.img")
-
-def CopyUpdaterFiles(output_zip):
-  """Copy some utilities needed for updater."""
-  output_zip.write(os.path.join(UTILITIES_DIR, "make_ext4fs"),"make_ext4fs")
-  output_zip.write(os.path.join(UTILITIES_DIR, "busybox"),"busybox")
-  output_zip.write(os.path.join(LOCAL_DIR, "updater.sh"),"updater.sh")
-
+  boot_img = common.GetBootableImage("boot.img", "boot.img",
+                                     OPTIONS.input_tmp, "BOOT")
   #recovery_img = common.GetBootableImage("recovery.img", "recovery.img",
   #                                       OPTIONS.input_tmp, "RECOVERY")
   #MakeRecoveryPatch(output_zip, recovery_img, boot_img)
@@ -432,13 +454,15 @@ def CopyUpdaterFiles(output_zip):
   Item.GetMetadata(input_zip)
   Item.Get("system").SetPermissions(script)
 
-  #common.CheckSize(boot_img.data, "boot.img", OPTIONS.info_dict)
-  #common.ZipWriteStr(output_zip, "boot.img", boot_img.data)
-  #script.ShowProgress(0.2, 0)
+  common.CheckSize(boot_img.data, "boot.img", OPTIONS.info_dict)
+  common.ZipWriteStr(output_zip, "boot.img", boot_img.data)
+  script.ShowProgress(0.2, 0)
 
   if OPTIONS.backuptool:
     script.ShowProgress(0.2, 10)
     script.RunBackup("restore")
+
+  script.ShowProgress(0.2, 10)
 
   script.ShowProgress(0.1, 0)
   device_specific.FullOTA_InstallEnd()
@@ -446,7 +470,7 @@ def CopyUpdaterFiles(output_zip):
   if OPTIONS.extra_script is not None:
     script.AppendExtra(OPTIONS.extra_script)
 
-  script.ExtractBoot()
+  script.ExtractBoot
 
   script.UnmountAll()
   script.AddToZip(input_zip, output_zip)
@@ -856,3 +880,14 @@ def main(argv):
   common.Cleanup()
 
   print "done."
+
+
+if __name__ == '__main__':
+  try:
+    common.CloseInheritedPipes()
+    main(sys.argv[1:])
+  except common.ExternalError, e:
+    print
+    print "   ERROR: %s" % (e,)
+    print
+    sys.exit(1)

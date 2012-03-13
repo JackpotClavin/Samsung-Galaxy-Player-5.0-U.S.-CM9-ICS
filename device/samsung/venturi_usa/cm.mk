@@ -11,6 +11,9 @@ $(call inherit-product, device/samsung/venturi_usa/venturi_usa.mk)
 # Inherit our vendor files dawg
 $(call inherit-product, vendor/samsung/venturi_usa/venturi_usa-vendor.mk)
 
+DEVICE_PACKAGE_OVERLAYS := device/samsung/venturi_usa/overlay
+DEVICE_PACKAGE_OVERLAYS += device/samsung/venturi_usa/overlay
+
 ## Device identifier. This must come after all inclusions
 PRODUCT_NAME := cm_venturi_usa
 PRODUCT_DEVICE := venturi_usa
