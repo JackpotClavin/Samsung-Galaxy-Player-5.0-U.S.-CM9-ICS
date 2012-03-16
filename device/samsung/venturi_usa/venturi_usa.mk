@@ -28,6 +28,7 @@ DEVICE_PACKAGE_OVERLAYS += device/samsung/venturi_usa/overlay
 PRODUCT_COPY_FILES += \
 	device/samsung/venturi_usa/asound.conf:system/etc/asound.conf \
 	device/samsung/venturi_usa/vold.fstab:system/etc/vold.fstab \
+	device/samsung/venturi_usa/vold.conf:system/etc/vold.conf \
 	device/samsung/venturi_usa/prebuilt/lib/egl/egl.cfg:system/lib/egl/egl.cfg
 
 PRODUCT_PACKAGES += \
@@ -44,6 +45,13 @@ PRODUCT_COPY_FILES += \
 	device/samsung/venturi_usa/ueventd.rc:root/ueventd.rc \
 	device/samsung/venturi_usa/ueventd.smdkc110.rc:root/ueventd.smdkc110.rc
 
+# Horrific hack is horrific (makes it so we don't have to add the boot and ext4 files after zip creation)
+PRODUCT_COPY_FILES += \
+	device/samsung/venturi_usa/zipstuff/cm7boot.img:system/etc/bootutils/cm7boot.img \
+	device/samsung/venturi_usa/zipstuff/make_ext4fs:system/etc/bootutils/make_ext4fs \
+	device/samsung/venturi_usa/zipstuff/updater.sh:system/etc/bootutils/updater.sh \
+	device/samsung/venturi_usa/zipstuff/busybox:system/etc/bootutils/busybox
+
 PRODUCT_AAPT_CONFIG := normal hdpi
 PRODUCT_AAPT_PREF_CONFIG := hdpi
 
@@ -54,17 +62,9 @@ PRODUCT_PACKAGES += \
 
 # Audio
 PRODUCT_COPY_FILES += \
-	device/samsung/venturi_usa/audio/liba2dp.so:system/lib/liba2dp.so \
 	device/samsung/venturi_usa/audio/libasound.so:system/lib/libasound.so \
 	device/samsung/venturi_usa/audio/libaudio.so:system/lib/libaudio.so \
-	device/samsung/venturi_usa/audio/libaudiohw_op.so:system/lib/libaudiohw_op.so \
-	device/samsung/venturi_usa/audio/libaudiohw_sf.so:system/lib/libaudiohw_sf.so \
-	device/samsung/venturi_usa/audio/liblvvefs.so:system/lib/liblvvefs.so \
-	device/samsung/venturi_usa/audio/lib_Samsung_Sound_Booster_Handphone.so:system/lib/lib_Samsung_Sound_Booster_Handphone.so \
-	device/samsung/venturi_usa/audio/lib_Samsung_Resampler.so:system/lib/lib_Samsung_Resampler.so \
-	device/samsung/venturi_usa/audio/libsamsungSoundbooster.so:system/lib/libsamsungSoundbooster.so \
-	device/samsung/venturi_usa/audio/libsec-ril.so:system/lib/libsec-ril.so \
-	device/samsung/venturi_usa/audio/libsecril-client.so:system/lib/libsecril-client.so
+	device/samsung/venturi_usa/audio/libaudiopolicy.so:system/lib/libaudiopolicy.so \
 
 # Prebuilt kl keymaps
 PRODUCT_COPY_FILES += \
@@ -86,29 +86,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
 	device/samsung/venturi_usa/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml
 
-# These are the OpenMAX IL modules
-#PRODUCT_PACKAGES += \
-#	libSEC_OMX_Core.aries \
-#	libOMX.SEC.AVC.Decoder.aries \
-#	libOMX.SEC.M4V.Decoder.aries \
-#	libOMX.SEC.M4V.Encoder.aries \
-#	libOMX.SEC.AVC.Encoder.aries
-
-# Misc other modules
-#PRODUCT_PACKAGES += \
-#	lights.aries \
-#	overlay.aries \
-#	sensors.aries
-
 # Libs
 PRODUCT_PACKAGES += \
         audio.primary.s5pc110 \
 	libcamera \
 	libstagefrighthw
-
-# apns config file
-#PRODUCT_COPY_FILES += \
-#        vendor/cyanogen/prebuilt/common/etc/apns-conf.xml:system/etc/apns-conf.xml
 
 # Bluetooth MAC Address
 PRODUCT_PACKAGES += \
@@ -144,7 +126,7 @@ PRODUCT_PROPERTY_OVERRIDES := \
 PRODUCT_PROPERTY_OVERRIDES += \
        wifi.interface=eth0 \
        wifi.supplicant_scan_interval=15 \
-       dalvik.vm.heapsize=72m
+       dalvik.vm.heapsize=128m
 
 # enable Google-specific location features,
 # like NetworkLocationProvider and LocationCollector
@@ -189,4 +171,4 @@ PRODUCT_COPY_FILES += \
 # half of the device-specific product definition file takes care
 # of the aspects that require proprietary drivers that aren't
 # commonly available
-$(call inherit-product-if-exists, vendor/samsung/venturi_usa/venturi_usa-vendor.mk)
+$(call inherit-product, vendor/samsung/venturi_usa/venturi_usa-vendor.mk)

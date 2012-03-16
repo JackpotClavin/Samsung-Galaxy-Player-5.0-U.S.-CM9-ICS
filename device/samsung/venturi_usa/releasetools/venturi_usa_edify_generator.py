@@ -87,9 +87,9 @@ class EdifyGenerator(object):
 
   def AssertDevice(self, device):
     """Assert that the device identifier is the given string."""
-    cmd = ('assert(' + 
-           ' || \0'.join(['getprop("ro.product.device") == "%s" || getprop("ro.build.product") == "%s" || getprop("ro.product.board") == "%s"'
-                         % (i, i, i) for i in device.split(",")]) + 
+    cmd = ('assert(' +
+           ' || \0'.join(['getprop("ro.product.device") == "%s" || getprop("ro.build.product") == "%s"'
+                         % (i, i) for i in device.split(",")]) +
            ');')
     self.script.append(self._WordWrap(cmd))
 
@@ -103,66 +103,18 @@ class EdifyGenerator(object):
 
   def RunBackup(self, command):
     self.script.append('package_extract_file("system/bin/backuptool.sh", "/tmp/backuptool.sh");')
+    self.script.append('package_extract_file("system/bin/backuptool.functions", "/tmp/backuptool.functions");')
     self.script.append('set_perm(0, 0, 0777, "/tmp/backuptool.sh");')
+    self.script.append('set_perm(0, 0, 0644, "/tmp/backuptool.functions");')
     self.script.append(('run_program("/tmp/backuptool.sh", "%s");' % command))
+    if command == "restore":
+        self.script.append('delete("/system/bin/backuptool.sh");')
+        self.script.append('delete("/system/bin/backuptool.functions");')
 
-  def RunTouchFirstBoot(self):
-    self.script.append('run_program("/sbin/touch","/system/firstboot");')
-
-  def WeirdSymlinks(self):
-    self.script.append('symlink("iwmulticall", "/system/xbin/iwconfig", "/system/xbin/iwlist", "/system/xbin/iwpriv", "/system/xbin/iwspy", "/system/xbin/iwgetid");')
-
-  def BootMenuPermissions(self):
-    self.script.append('symlink("bootmenu", "/system/bin/logwrapper");')
-    self.script.append('package_extract_file("system/bin/bootmenu", "/system/bootmenu/binary/bootmenu");')
-    self.script.append('set_perm_recursive(0, 0, 0755, 0755, "/system/bootmenu/binary/");')
-    self.script.append('set_perm_recursive(0, 0, 0755, 0755, "/system/bootmenu/script/");')
-    self.script.append('set_perm_recursive(0, 0, 0755, 0755, "/system/bootmenu/recovery/sbin/");')
-    self.script.append('set_perm_recursive(0, 0, 0755, 0755, "/system/bootmenu/2nd-boot/sbin/");')
-    self.script.append('set_perm(0, 0, 0755, "/system/bootmenu/2nd-init/init");')
-    self.script.append('set_perm(0, 0, 0755, "/system/bootmenu/2nd-boot/init");')
-    self.script.append('set_perm_recursive(0, 2000, 0775, 0664, "/system/bootmenu/config/");')
-    self.script.append('set_perm_recursive(0, 2000, 0755, 0755, "/system/etc/init.d");')
-    self.script.append('set_perm(0, 0, 0755, "/system/etc/init.d");')
-
-  def RunChkKineto(self):
-    self.script.append('package_extract_file("system/bin/chkkineto.sh", "/tmp/chkkineto.sh");')
-    self.script.append('set_perm(0, 0, 0777, "/tmp/chkkineto.sh");')
-    self.script.append('run_program("/tmp/chkkineto.sh");')
-
-  def RunVerifyCachePartitionSize(self):
-    self.script.append('package_extract_file("system/bin/verify_cache_partition_size.sh", "/tmp/verify_cache_partition_size.sh");')
-    self.script.append('set_perm(0, 0, 0777, "/tmp/verify_cache_partition_size.sh");')
-    self.script.append('run_program("/tmp/verify_cache_partition_size.sh");')
-
-  def RunFormatAndTuneSystem(self):
-    mount_point = "/system"
-    self.script.append('package_extract_file("system/bin/mke2fs", "/tmp/mke2fs");')
-    self.script.append('set_perm(0, 0, 0777, "/tmp/mke2fs");')
-    self.script.append('package_extract_file("system/bin/tune2fs", "/tmp/tune2fs");')
-    self.script.append('set_perm(0, 0, 0777, "/tmp/tune2fs");')
-    self.script.append('unmount("%s");' % (mount_point))
-    fstab = self.info.get("fstab", None)
-    if fstab:
-      p = fstab[mount_point]
-      self.script.append('run_program("/tmp/mke2fs", "-g", "8184", "-m", "0", "-O", "none,has_journal,filetype", "-L", "system", "-U", "66c79d5f-31a2-42c6-86d9-9fe0d2ec3fe5", "%s");' %
-                         (p.device))
-      self.script.append('run_program("/tmp/tune2fs", "-c", "0", "-i", "0", "%s");' %
-                         (p.device))
-      self.mounts.add(p.mount_point)
-    else:
-      what = mount_point.lstrip("/")
-      what = self.info.get("partition_path", "") + what
-      self.script.append('run_program("/tmp/mke2fs", "-g", "8184", "-m", "0", "-O", "none,has_journal,filetype", "-L", "system", "-U", "66c79d5f-31a2-42c6-86d9-9fe0d2ec3fe5", "%s");' %
-                         (what))
-      self.script.append('run_program("/tmp/tune2fs", "-c", "0", "-i", "0", "%s");' %
-                         (what))
-      self.mounts.add(mount_point)
-
-  def RunFinalReleaseUtils(self):
-    self.script.append('package_extract_file("system/etc/finalize_release", "/tmp/finalize_release");')
-    self.script.append('set_perm(0, 0, 0777, "/tmp/finalize_release");')
-    self.script.append('run_program("/tmp/finalize_release");')
+  def RunConfig(self, command):
+    self.script.append('package_extract_file("system/bin/modelid_cfg.sh", "/tmp/modelid_cfg.sh");')
+    self.script.append('set_perm(0, 0, 0777, "/tmp/modelid_cfg.sh");')
+    self.script.append(('run_program("/tmp/modelid_cfg.sh", "%s");' % command))
 
   def ShowProgress(self, frac, dur):
     """Update the progress bar, advancing it over 'frac' over the next
@@ -205,13 +157,6 @@ class EdifyGenerator(object):
                          (p.fs_type, common.PARTITION_TYPES[p.fs_type],
                           p.device, p.mount_point))
       self.mounts.add(p.mount_point)
-    else:
-      what = mount_point.lstrip("/")
-      what = self.info.get("partition_path", "") + what
-      self.script.append('mount("%s", "%s", "%s", "%s");' %
-                         (self.info["fs_type"], self.info["partition_type"],
-                          what, mount_point))
-      self.mounts.add(mount_point)
 
   def UnpackPackageDir(self, src, dst):
     """Unpack a given directory from the OTA package into the given
@@ -225,6 +170,23 @@ class EdifyGenerator(object):
       self.script.append("# " + i)
     self.script.append("")
 
+  def Ext4Stuff(self):
+    self.script.append('package_extract_file("system/etc/bootutils/updater.sh", "/tmp/updater.sh");')
+    self.script.append('set_perm(0, 0, 0777, "/tmp/updater.sh");')
+    self.script.append('package_extract_file("system/etc/bootutils/make_ext4fs", "/tmp/make_ext4fs");')
+    self.script.append('set_perm(0, 0, 0777, "/tmp/make_ext4fs");')
+    self.script.append('package_extract_file("system/etc/bootutils/busybox", "/tmp/busybox");')
+    self.script.append('set_perm(0, 0, 0777, "/tmp/busybox");')
+    self.script.append('assert(run_program("/tmp/updater.sh") == 0);')
+
+  def ExtractBoot(self):
+    self.script.append('assert(package_extract_file("system/etc/bootutils/cm7boot.img", "/tmp/cm7boot.img"),')
+    self.script.append('write_raw_image("/tmp/cm7boot.img", "/dev/block/mmcblk0p11"),')
+    self.script.append('delete("/tmp/boot.img"));')
+    self.script.append('assert(package_extract_file("system/etc/bootutils/cm7boot.img", "/tmp/cm7boot.img"),')
+    self.script.append('write_raw_image("/tmp/cm7boot.img", "/dev/block/mmcblk0p12"),')
+    self.script.append('delete("/tmp/boot.img"));')
+
   def Print(self, message):
     """Log a message to the screen (if the logs are visible)."""
     self.script.append('ui_print("%s");' % (message,))
@@ -233,17 +195,13 @@ class EdifyGenerator(object):
     """Format the given partition, specified by its mount point (eg,
     "/system")."""
 
+    reserve_size = 0
     fstab = self.info.get("fstab", None)
     if fstab:
       p = fstab[partition]
-      self.script.append('format("%s", "%s", "%s");' %
-                         (p.fs_type, common.PARTITION_TYPES[p.fs_type], p.device))
-    else:
-      # older target-files without per-partition types
-      partition = self.info.get("partition_path", "") + partition
-      self.script.append('format("%s", "%s", "%s");' %
-                         (self.info["fs_type"], self.info["partition_type"],
-                          partition))
+      self.script.append('format("%s", "%s", "%s", "%s");' %
+                         (p.fs_type, common.PARTITION_TYPES[p.fs_type],
+                          p.device, p.length))
 
   def DeleteFiles(self, file_list):
     """Delete all files in file_list."""
@@ -265,18 +223,6 @@ class EdifyGenerator(object):
     cmd = "".join(cmd)
     self.script.append(self._WordWrap(cmd))
 
-  def WriteFirmwareImage(self, kind, fn):
-    """Arrange to update the given firmware image (kind must be
-    "hboot" or "radio") when recovery finishes."""
-    if self.version == 1:
-      self.script.append(
-          ('assert(package_extract_file("%(fn)s", "/tmp/%(kind)s.img"),\n'
-           '       write_firmware_image("/tmp/%(kind)s.img", "%(kind)s"));')
-          % {'kind': kind, 'fn': fn})
-    else:
-      self.script.append(
-          'write_firmware_image("PACKAGE:%s", "%s");' % (fn, kind))
-
   def WriteRawImage(self, mount_point, fn):
     """Write the given package file into the partition for the given
     mount point."""
@@ -288,33 +234,14 @@ class EdifyGenerator(object):
       args = {'device': p.device, 'fn': fn}
       if partition_type == "MTD":
         self.script.append(
-            ('assert(package_extract_file("%(fn)s", "/tmp/%(device)s.img"),\n'
-             '       write_raw_image("/tmp/%(device)s.img", "%(device)s"),\n'
-             '       delete("/tmp/%(device)s.img"));') % args)
+            'package_extract_file("%(fn)s", "/tmp/boot.img");'
+            'write_raw_image("/tmp/boot.img", "%(device)s");' % args
+            % args)
       elif partition_type == "EMMC":
         self.script.append(
             'package_extract_file("%(fn)s", "%(device)s");' % args)
       else:
         raise ValueError("don't know how to write \"%s\" partitions" % (p.fs_type,))
-    else:
-      # backward compatibility with older target-files that lack recovery.fstab
-      if self.info["partition_type"] == "MTD":
-        partition_type, partition = common.GetTypeAndDevice(mount_point, self.info)
-        self.script.append(
-            ('assert(package_extract_file("%(fn)s", "/tmp/%(partition)s.img"),\n'
-             '       write_raw_image("/tmp/%(partition)s.img", "%(partition)s"),\n'
-             '       delete("/tmp/%(partition)s.img"));')
-            % {'partition': partition, 'fn': fn})
-      elif self.info["partition_type"] == "EMMC":
-        partition_type, partition = common.GetTypeAndDevice(mount_point, self.info)
-        self.script.append(
-            ('package_extract_file("%(fn)s", "%(dir)s%(partition)s");')
-            % {'partition': partition, 'fn': fn,
-               'dir': self.info.get("partition_path", ""),
-               })
-      else:
-        raise ValueError("don't know how to write \"%s\" partitions" %
-                         (self.info["partition_type"],))
 
   def SetPermissions(self, fn, uid, gid, mode):
     """Set file ownership and permissions."""
@@ -335,6 +262,20 @@ class EdifyGenerator(object):
       cmd = ('symlink("%s", ' % (dest,) +
              ",\0".join(['"' + i + '"' for i in sorted(links)]) + ");")
       self.script.append(self._WordWrap(cmd))
+
+  def RetouchBinaries(self, file_list):
+    """Execute the retouch instructions in files listed."""
+    cmd = ('retouch_binaries(' +
+           ', '.join(['"' + i[0] + '", "' + i[1] + '"' for i in file_list]) +
+           ');')
+    self.script.append(self._WordWrap(cmd))
+
+  def UndoRetouchBinaries(self, file_list):
+    """Undo the retouching (retouch to zero offset)."""
+    cmd = ('undo_retouch_binaries(' +
+           ', '.join(['"' + i[0] + '", "' + i[1] + '"' for i in file_list]) +
+           ');')
+    self.script.append(self._WordWrap(cmd))
 
   def AppendExtra(self, extra):
     """Append text verbatim to the output script."""

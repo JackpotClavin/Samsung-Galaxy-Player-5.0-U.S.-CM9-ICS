@@ -64,6 +64,9 @@ TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := ./device/samsung/venturi_usa/releas
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
 
+TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/usb_mass_storage/lun0/file
+BOARD_UMS_LUNFILE := "/sys/devices/platform/usb_mass_storage/lun0/file"
+
 # WiFi related defines
 BOARD_WPA_SUPPLICANT_DRIVER := WEXT
 WPA_SUPPLICANT_VERSION := VER_0_6_X
@@ -73,7 +76,7 @@ WIFI_DRIVER_MODULE_ARG := "firmware_path=/system/etc/wifi/bcm4329_sta.bin nvram_
 WIFI_DRIVER_FW_AP_PATH := "/system/etc/wifi/bcm4329_aps.bin"
 WIFI_DRIVER_FW_STA_PATH := "/system/etc/wifi/bcm4329_sta.bin"
 WIFI_DRIVER_MODULE_NAME := "dhd"
-BOARD_WEXT_NO_COMBO_SCAN := true
+#BOARD_WEXT_NO_COMBO_SCAN := true
 
 USE_CAMERA_STUB := true
 ifeq ($(USE_CAMERA_STUB),false)
@@ -92,7 +95,7 @@ BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_CMDLINE := console=ttyFIQ0,115200 init=/init no_console_suspend
 TARGET_PREBUILT_KERNEL := device/samsung/venturi_usa/kernel
 
-BOARD_BOOTIMAGE_PARTITION_SIZE := 7864320
+BOARD_BOOTIMAGE_PARTITION_SIZE := 47864320
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 304087040
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 2017460224
 BOARD_FLASH_BLOCK_SIZE := 131072

@@ -14,8 +14,17 @@
 
 # sdcard mount for the P1
 # internal sdcard
-dev_mount emmc /mnt/emmc 17 /devices/platform/s3c-sdhci.0/mmc_host/mmc0
+{
+	ums_path = /sys/devices/platform/usb_mass_storage/lun0/file
+	discard = disable
+	asec = disable
+}
+dev_mount sdcard /mnt/emmc 17 /devices/platform/s3c-sdhci.0/mmc_host/mmc0
 
 # externel sdcard
-dev_mount sdcard /mnt/sdcard/ auto /devices/platform/s3c-sdhci.2/mmc_host/mmc1
+{
+	ums_path = /sys/devices/platform/usb_mass_storage/lun1/file
+	asec = enable
+}
+dev_mount sdcard1 /mnt/sdcard auto /devices/platform/s3c-sdhci.2/mmc_host/mmc1
 #end line ## keep this line

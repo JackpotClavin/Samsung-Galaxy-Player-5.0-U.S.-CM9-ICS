@@ -1,0 +1,27 @@
+    vendor/samsung/venturi_usa/proprietary/etc/audio/aeqcoe.txt:system/etc/audio/aeqcoe.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/aeqcoe_ulp.txt:system/etc/audio/aeqcoe_ulp.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/aeqcoe_voip_rx_ear.txt:system/etc/audio/aeqcoe_voip_rx_ear.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/aeqcoe_voip_rx_head.txt:system/etc/audio/aeqcoe_voip_rx_head.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/aeqcoe_voip_rx_spk.txt:system/etc/audio/aeqcoe_voip_rx_spk.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/aeqcoe_voip_tx.txt:system/etc/audio/aeqcoe_voip_tx.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/aeqcoe_voip_tx_qik.txt:system/etc/audio/aeqcoe_voip_tx_qik.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/eur_situation.txt:system/etc/audio/eur_situation.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/eur_stream_earpiece.txt:system/etc/audio/eur_stream_earpiece.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/eur_stream_headset.txt:system/etc/audio/eur_stream_headset.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/eur_stream_speaker.txt:system/etc/audio/eur_stream_speaker.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/LVVEFS_Rx_Configuration.txt:system/etc/audio/LVVEFS_Rx_Configuration.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/LVVEFS_Tx_Configuration.txt:system/etc/audio/LVVEFS_Tx_Configuration.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/Rx_ControlParams_EARPIECE_WIDEBAND.txt:system/etc/audio/Rx_ControlParams_EARPIECE_WIDEBAND.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/Rx_ControlParams_SPEAKER_WIDEBAND.txt:system/etc/audio/Rx_ControlParams_SPEAKER_WIDEBAND.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/Rx_ControlParams_WIRED_HEADPHONE_WIDEBAND.txt:system/etc/audio/Rx_ControlParams_WIRED_HEADPHONE_WIDEBAND.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/Rx_ControlParams_WIRED_HEADSET_WIDEBAND.txt:system/etc/audio/Rx_ControlParams_WIRED_HEADSET_WIDEBAND.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/situation.txt:system/etc/audio/situation.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/soundbooster.txt:system/etc/audio/soundbooster.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/srstunning.txt:system/etc/audio/srstunning.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/stream_earpiece.txt:system/etc/audio/stream_earpiece.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/stream_headset.txt:system/etc/audio/stream_headset.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/stream_speaker.txt:system/etc/audio/stream_speaker.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/Tx_ControlParams_EARPIECE_WIDEBAND.txt:system/etc/audio/Tx_ControlParams_EARPIECE_WIDEBAND.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/Tx_ControlParams_SPEAKER_WIDEBAND.txt:system/etc/audio/Tx_ControlParams_SPEAKER_WIDEBAND.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/Tx_ControlParams_WIRED_HEADPHONE_WIDEBAND.txt:system/etc/audio/Tx_ControlParams_WIRED_HEADPHONE_WIDEBAND.txt \
+    vendor/samsung/venturi_usa/proprietary/etc/audio/Tx_ControlParams_WIRED_HEADSET_WIDEBAND.txt:system/etc/audio/Tx_ControlParams_WIRED_HEADSET_WIDEBAND.txt
