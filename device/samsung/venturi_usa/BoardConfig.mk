@@ -66,13 +66,16 @@ BOARD_HAVE_BLUETOOTH_BCM := true
 
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/usb_mass_storage/lun0/file
 BOARD_UMS_LUNFILE := "/sys/devices/platform/usb_mass_storage/lun0/file"
+SAMSUNG_USB_MTP_DEVICE := true
 
 # WiFi related defines
 BOARD_WPA_SUPPLICANT_DRIVER := WEXT
 WPA_SUPPLICANT_VERSION := VER_0_6_X
 BOARD_WLAN_DEVICE := bcm4329
+#BOARD_WPA_SUPPLICANT_DRIVER := CUSTOM
+#BOARD_WPA_SUPPLICANT_PRIVATE_LIB := libCustomWifi
 WIFI_DRIVER_MODULE_PATH := "/system/lib/modules/dhd.ko"
-WIFI_DRIVER_MODULE_ARG := "firmware_path=/system/etc/wifi/bcm4329_sta.bin nvram_path=/system/etc/wifi/nvram_net.txt dhd_watchdog_ms=10 dhd_poll=1"
+WIFI_DRIVER_MODULE_ARG := "firmware_path=/system/etc/wifi/bcm4329_sta.bin nvram_path=/system/etc/wifi/nvram_net.txt"
 WIFI_DRIVER_FW_AP_PATH := "/system/etc/wifi/bcm4329_aps.bin"
 WIFI_DRIVER_FW_STA_PATH := "/system/etc/wifi/bcm4329_sta.bin"
 WIFI_DRIVER_MODULE_NAME := "dhd"
@@ -101,8 +104,8 @@ BOARD_USERDATAIMAGE_PARTITION_SIZE := 2017460224
 BOARD_FLASH_BLOCK_SIZE := 131072
 
 # Vold
-BOARD_VOLD_MAX_PARTITIONS := 17
-BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
+#BOARD_VOLD_MAX_PARTITIONS := 17
+#BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 
 # Recovery
 TARGET_USERIMAGES_USE_EXT4 := true

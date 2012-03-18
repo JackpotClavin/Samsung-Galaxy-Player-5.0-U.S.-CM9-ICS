@@ -28,6 +28,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     vendor/samsung/venturi_usa/proprietary/etc/wifi/nvram_net.txt:system/etc/wifi/nvram_net.txt \
     vendor/samsung/venturi_usa/proprietary/etc/wifi/wifi.conf:system/etc/wifi/wifi.conf \
+    vendor/samsung/venturi_usa/proprietary/etc/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
+    vendor/samsung/venturi_usa/proprietary/etc/init.local.rc:system/etc/init.local.rc \
     vendor/samsung/venturi_usa/proprietary/etc/wifi/bcm4329_sta.bin:system/etc/wifi/bcm4329_sta.bin \
     vendor/samsung/venturi_usa/proprietary/etc/wifi/bcm4329_aps.bin:system/etc/wifi/bcm4329_aps.bin
 
@@ -56,6 +58,7 @@ PRODUCT_COPY_FILES += \
 #
 PRODUCT_COPY_FILES += \
     vendor/samsung/venturi_usa/proprietary/bin/geomagneticd:system/bin/geomagneticd \
+    vendor/samsung/venturi_usa/proprietary/bin/dhcpcd:system/bin/dhcpcd \
     vendor/samsung/venturi_usa/proprietary/bin/vold:system/bin/vold \
     vendor/samsung/venturi_usa/proprietary/bin/orientationd:system/bin/orientationd \
     vendor/samsung/venturi_usa/proprietary/lib/hw/sensors.default.so:system/lib/hw/sensors.default.so \

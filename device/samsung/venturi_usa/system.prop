@@ -7,10 +7,11 @@ rild.libargs=-d /dev/ttyS0
 ro.sf.lcd_density=240
 
 # Mount the internal SD card, too
-ro.additionalmounts=/mnt/emmc
+# ro.additionalmounts=/mnt/emmc
 
 # Allow people to exchange sdcard and emmc mountpoints from CMParts
-ro.vold.switchablepair=/mnt/sdcard,/mnt/emmc
+# ro.vold.switchablepair=/mnt/sdcard,/mnt/emmc
+persist.sys.usb.config=mass_storage,adb
 
 # Sound
 media.stagefright.enable-player=false
