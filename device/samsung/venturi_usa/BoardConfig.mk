@@ -70,10 +70,9 @@ SAMSUNG_USB_MTP_DEVICE := true
 
 # WiFi related defines
 BOARD_WPA_SUPPLICANT_DRIVER := WEXT
-WPA_SUPPLICANT_VERSION := VER_0_6_X
+WPA_SUPPLICANT_VERSION := VER_0_8_X
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wext
 BOARD_WLAN_DEVICE := bcm4329
-#BOARD_WPA_SUPPLICANT_DRIVER := CUSTOM
-#BOARD_WPA_SUPPLICANT_PRIVATE_LIB := libCustomWifi
 WIFI_DRIVER_MODULE_PATH := "/system/lib/modules/dhd.ko"
 WIFI_DRIVER_MODULE_ARG := "firmware_path=/system/etc/wifi/bcm4329_sta.bin nvram_path=/system/etc/wifi/nvram_net.txt"
 WIFI_DRIVER_FW_AP_PATH := "/system/etc/wifi/bcm4329_aps.bin"
@@ -90,6 +89,7 @@ BOARD_CAMERA_DEVICE := /dev/video0
 BOARD_SECOND_CAMERA_DEVICE := /dev/video2
 
 # OpenGL stuff
+#USE_OPENGL_RENDERER := true
 BOARD_EGL_CFG := device/samsung/venturi_usa/prebuilt/lib/egl/egl.cfg
 
 # Device related defines

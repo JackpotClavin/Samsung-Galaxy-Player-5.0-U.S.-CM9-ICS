@@ -1,4 +1,4 @@
-# Copyright (C) 2011 The Android Open Source Project
+# Copyright (C) 2010 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,26 +13,43 @@
 # limitations under the License.
 
 #
-# Input Device Calibration File for the Tuna touch screen.
+# Input Device Calibration File for the Crespo touch screen.
+#
+# These calibration values are derived from empirical measurements
+# and may not be appropriate for use with other touch screens.
+# Refer to the input device calibration documentation for more details.
 #
 
 # Basic Parameters
 touch.deviceType = touchScreen
 touch.orientationAware = 1
 
-# Size
-touch.size.calibration = diameter
-touch.size.scale = 10
-touch.size.bias = 0
-touch.size.isSummed = 0
+# Touch Size
+touch.touchSize.calibration = pressure
+
+# Tool Size
+# Driver reports tool size as an area measurement.
+#
+# Based on empirical measurements, we estimate the size of the tool
+# using size = sqrt(22 * rawToolArea + 0) * 9.2 + 0.
+touch.toolSize.calibration = area
+touch.toolSize.areaScale = 22
+touch.toolSize.areaBias = 0
+touch.toolSize.linearScale = 9.2
+touch.toolSize.linearBias = 0
+touch.toolSize.isSummed = 0
 
 # Pressure
 # Driver reports signal strength as pressure.
 #
-# A normal thumb touch typically registers about 200 signal strength
+# A normal thumb touch typically registers about 100 signal strength
 # units although we don't expect these values to be accurate.
 touch.pressure.calibration = amplitude
-touch.pressure.scale = 0.005
+touch.pressure.source = default
+touch.pressure.scale = 0.01
+
+# Size
+touch.size.calibration = normalized
 
 # Orientation
 touch.orientation.calibration = none

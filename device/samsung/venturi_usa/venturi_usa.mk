@@ -35,6 +35,7 @@ PRODUCT_PACKAGES += \
     audio.primary.s5pc110 \
     libaudiohw_legacy \
     audio.a2dp.default \
+    hwcomposer.s5pc110 \
     Torch \
     libaudioutils
 

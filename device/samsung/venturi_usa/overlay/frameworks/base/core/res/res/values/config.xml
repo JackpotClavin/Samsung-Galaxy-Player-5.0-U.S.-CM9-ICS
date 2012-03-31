@@ -69,6 +69,9 @@
     <!-- Indicate whether the SD card is accessible without removing the battery. -->
     <bool name="config_batterySdCardAccessibility">true</bool>
 
+    <!-- CRT Screen off animation -->
+    <bool name="config_animateScreenLights">false</bool>
+
     <string name="config_legacyUmsLunFile">/sys/devices/platform/usb_mass_storage/lun0/file</string>
 
 </resources>

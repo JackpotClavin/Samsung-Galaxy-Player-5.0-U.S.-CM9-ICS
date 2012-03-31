@@ -403,8 +403,8 @@ def WriteFullOTAPackage(input_zip, output_zip):
 
   script.Ext4Stuff()
 
-  if OPTIONS.backuptool:
-    script.RunBackup("backup")
+  #if OPTIONS.backuptool:
+  #  script.RunBackup("backup")
 
   script.ShowProgress(0.5, 0)
 
@@ -436,9 +436,9 @@ def WriteFullOTAPackage(input_zip, output_zip):
   #common.ZipWriteStr(output_zip, "cm7boot.img", boot_img.data)
   script.ShowProgress(0.2, 0)
 
-  if OPTIONS.backuptool:
-    script.ShowProgress(0.2, 10)
-    script.RunBackup("restore")
+  #if OPTIONS.backuptool:
+  #  script.ShowProgress(0.2, 10)
+  #  script.RunBackup("restore")
 
   if OPTIONS.modelidcfg:
     script.RunConfig("")
