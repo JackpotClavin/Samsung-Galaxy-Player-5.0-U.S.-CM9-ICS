@@ -24,5 +24,8 @@ PRODUCT_MODEL := YP-G70
 # Release name and versioning
 PRODUCT_RELEASE_NAME := GalaxyPlayer
 
+# Boot animation
+TARGET_BOOTANIMATION_NAME := vertical-480x800
+
 UTC_DATE := $(shell date +%s)
 DATE := $(shell date +%Y%m%d)

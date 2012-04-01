@@ -69,6 +69,16 @@
     <!-- Indicate whether the SD card is accessible without removing the battery. -->
     <bool name="config_batterySdCardAccessibility">true</bool>
 
+    <!-- Hack to make virtual soft buttons like the Nexus. This is to be disabled by default
+	 but is to be enabled every couple of builds so the custom .zip users flash doesn't
+	 use an outdated framework-res.apk   -->
+    <bool name="config_showNavigationBar">true</bool>
+
+    <!-- Vibrator pattern for feedback about touching a virtual key -->
+    <integer-array name="config_virtualKeyVibePattern">
+        <item>30</item>
+    </integer-array>
+
     <!-- CRT Screen off animation -->
     <bool name="config_animateScreenLights">false</bool>
 
