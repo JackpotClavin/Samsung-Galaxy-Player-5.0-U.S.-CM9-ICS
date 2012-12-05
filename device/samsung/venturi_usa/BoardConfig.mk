@@ -109,7 +109,9 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 
 # Recovery
 TARGET_USERIMAGES_USE_EXT4 := true
-#BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/venturi_usa/recovery/graphics.c
+BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/venturi_usa/recovery/graphics.c
+# fix for rebooting out of recovery needs a few modifications to the CM ClockworkMod bootable recovery
+# see here http://forum.xda-developers.com/showpost.php?p=35061699&postcount=392
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_CUSTOM_BOOTIMG_MK := device/samsung/venturi_usa/shbootimg.mk
 TARGET_RECOVERY_PRE_COMMAND := "echo 1 > /cache/.startrecovery; sync;"
