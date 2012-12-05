@@ -29,6 +29,7 @@ loglevel 3
 # Backward compatibility
     symlink /system/etc /etc
     symlink /sys/kernel/debug /d
+    symlink /system/vendor /vendor
 
 # create mountpoints
     mkdir /mnt 0775 root system
@@ -111,23 +112,21 @@ loglevel 3
     insmod /lib/modules/rfs_glue.ko
     insmod /lib/modules/rfs_fat.ko
 
-    # ko files for vibrator
-    insmod /lib/modules/vibrator.ko
-
-    # ko files for bthid
-    insmod /lib/modules/bthid.ko
-
-    # ko files for FM Radio
-    insmod /lib/modules/Si4709_driver.ko
-
 on fs
 # mount mtd partitions
     # Mount /system rw first to give the filesystem a chance to save a checkpoint
     mount ext4 /dev/block/mmcblk0p13 /system wait ro
+    mount rfs  /dev/block/mmcblk0p13 /system check=no
+    mount rfs  /dev/block/mmcblk0p13 /system ro remount
+
     mount ext4 /dev/block/mmcblk0p15 /cache nosuid nodev noatime wait
-    exec check_filesystem /dev/block/mmcblk0p10 ext4
+    mount rfs  /dev/block/mmcblk0p15 /cache nosuid nodev check=no
+
     mount ext4 /dev/block/mmcblk0p16 /data nosuid nodev noatime wait crypt discard,noauto_da_alloc
+    mount rfs  /dev/block/mmcblk0p16 /data nosuid nodev check=no
+
     mount ext4 /dev/block/mmcblk0p14 /dbdata nosuid nodev noatime wait crypt discard,noauto_da_alloc,journal_checksum
+    mount rfs  /dev/block/mmcblk0p14 /dbdata nosuid nodev check=no
 
     # SEC_DMCRYPT for MC_CRYPT_ROOT before apply_disk_policy or apply_sec_devenc_init
     mount rfs /dev/block/mmcblk0p10 /efs
@@ -138,6 +137,15 @@ on fs
     exec apply_sec_devenc_init
 
     mount debugfs nil /sys/kernel/debug
+
+    # ko files for vibrator
+    insmod /system/lib/modules/vibrator.ko
+
+    # ko files for bthid
+    insmod /system/lib/modules/bthid.ko
+
+    # ko files for FM Radio
+    insmod /system/lib/modules/Si4709_driver.ko
 
 on post-fs
     # verfiy filesystem (UMS)
@@ -219,7 +227,8 @@ on post-fs
     chmod 0777 /data/wifi/
     mkdir /data/misc/dhcp 0777 dhcp dhcp
     mkdir /data/misc/wifi/sockets 0777 wifi wifi
-    chmod 0664 /system/etc/wifi/wpa_supplicant.conf
+    chmod 0660 /data/misc/wifi/wpa_supplicant.conf
+    chown wifi wifi /data/misc/wifi/wpa_supplicant.conf
     chown dhcp dhcp /data/misc/dhcp
     mkdir /data/misc/dhcpcd 0771 dhcp dhcp 
     chown dhcp dhcp /data/misc/dhcpcd
@@ -674,7 +683,7 @@ service iprenew_eth0 /system/bin/dhcpcd -n
     disabled
     oneshot
 
-service wpa_supplicant /system/bin/wpa_supplicant -Dwext -ieth0 -c/system/etc/wifi/wpa_supplicant.conf
+service wpa_supplicant /system/bin/logwrapper /system/bin/wpa_supplicant -Dwext -ieth0 -c/data/misc/wifi/wpa_supplicant.conf
     socket wpa_eth0 dgram 0660 wifi wifi
     disabled
     oneshot

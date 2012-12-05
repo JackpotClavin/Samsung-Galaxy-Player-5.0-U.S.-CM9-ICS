@@ -1,9 +1,9 @@
 # mount point	fstype		device			device2	fstype2	fsoptions	fsoptions2
 /efs		rfs		/dev/block/mmcblk0p10
-/system		ext4		/dev/block/mmcblk0p13	NULL	rfs	NULL		rw,check=no
-/dbdata		ext4		/dev/block/mmcblk0p14	NULL	rfs	NULL		rw,nosuid,nodev,check=no
-/cache		ext4		/dev/block/mmcblk0p15	NULL	rfs	NULL		rw,nosuid,nodev,check=no
-/data		ext4		/dev/block/mmcblk0p16	NULL	rfs	NULL		rw,nosuid,nodev,check=no
+/system		ext4		/dev/block/mmcblk0p13
+/dbdata		ext4		/dev/block/mmcblk0p14
+/cache		ext4		/dev/block/mmcblk0p15
+/data		ext4		/dev/block/mmcblk0p16
 
 /emmc		vfat		/dev/block/mmcblk0p17
 /sdcard		vfat		/dev/block/mmcblk1p1

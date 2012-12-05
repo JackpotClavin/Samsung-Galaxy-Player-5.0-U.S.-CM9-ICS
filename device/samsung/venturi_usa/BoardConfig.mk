@@ -39,7 +39,7 @@ TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
 
 # JackpotChanges
-COMMON_GLOBAL_CFLAGS += -DMISSING_EGL_EXTERNAL_IMAGE -DMISSING_EGL_PIXEL_FORMAT_YV12 -DMISSING_GRALLOC_BUFFERS
+#COMMON_GLOBAL_CFLAGS += -DMISSING_EGL_EXTERNAL_IMAGE -DMISSING_EGL_PIXEL_FORMAT_YV12 -DMISSING_GRALLOC_BUFFERS
 BOARD_USE_LEGACY_TOUCHSCREEN := true
 
 #TARGET_PROVIDES_INIT := true
@@ -89,7 +89,7 @@ BOARD_CAMERA_DEVICE := /dev/video0
 BOARD_SECOND_CAMERA_DEVICE := /dev/video2
 
 # OpenGL stuff
-#USE_OPENGL_RENDERER := true
+USE_OPENGL_RENDERER := true
 BOARD_EGL_CFG := device/samsung/venturi_usa/prebuilt/lib/egl/egl.cfg
 
 # Device related defines
@@ -109,6 +109,7 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 
 # Recovery
 TARGET_USERIMAGES_USE_EXT4 := true
+#BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/venturi_usa/recovery/graphics.c
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_CUSTOM_BOOTIMG_MK := device/samsung/venturi_usa/shbootimg.mk
 TARGET_RECOVERY_PRE_COMMAND := "echo 1 > /cache/.startrecovery; sync;"

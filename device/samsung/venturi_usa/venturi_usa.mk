@@ -19,7 +19,7 @@
 
 $(call inherit-product, vendor/samsung/venturi_usa/venturi_usa-vendor.mk)
 $(call inherit-product, build/target/product/full_base.mk)
-$(call inherit-product, vendor/cm/config/common_full_phone.mk)
+#$(call inherit-product, vendor/cm/config/common_full_phone.mk)
 
 DEVICE_PACKAGE_OVERLAYS := device/samsung/venturi_usa/overlay
 DEVICE_PACKAGE_OVERLAYS += device/samsung/venturi_usa/overlay
@@ -41,8 +41,9 @@ PRODUCT_PACKAGES += \
 
 # Init files
 PRODUCT_COPY_FILES += \
+	device/samsung/venturi_usa/init.rc:root/init.rc \
 	device/samsung/venturi_usa/init.smdkc110.rc:root/init.smdkc110.rc \
-	device/samsung/venturi_usa/lpm.rc:root/lpm.rc \
+	device/samsung/venturi_usa/init:root/init \
 	device/samsung/venturi_usa/ueventd.rc:root/ueventd.rc \
 	device/samsung/venturi_usa/ueventd.smdkc110.rc:root/ueventd.smdkc110.rc
 

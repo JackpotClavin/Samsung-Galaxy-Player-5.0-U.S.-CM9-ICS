@@ -26,7 +26,7 @@ service tvout /system/bin/tvoutserver
      group graphics
 
 # 3D init
-service pvrsrvinit /system/bin/pvrsrvinit
+service pvrsrvinit /system/vendor/bin/pvrsrvinit
     user root
     group root
     oneshot
