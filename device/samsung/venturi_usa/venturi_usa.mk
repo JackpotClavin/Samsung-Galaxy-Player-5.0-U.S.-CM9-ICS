@@ -43,7 +43,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
 	device/samsung/venturi_usa/init.rc:root/init.rc \
 	device/samsung/venturi_usa/init.smdkc110.rc:root/init.smdkc110.rc \
-	device/samsung/venturi_usa/init:root/init \
+	device/samsung/venturi_usa/init.smdkc110.usb.rc:root/init.smdkc110.usb.rc \
 	device/samsung/venturi_usa/ueventd.rc:root/ueventd.rc \
 	device/samsung/venturi_usa/ueventd.smdkc110.rc:root/ueventd.smdkc110.rc
 
